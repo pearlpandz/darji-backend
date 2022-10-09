@@ -37,3 +37,15 @@ class PropertySerializer(serializers.ModelSerializer):
         model = Property
         # fields = "__all__"
         exclude = ['category']
+
+class PropertyImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Property
+        # fields = "__all__"
+        exclude = ['category']
+
+class PropertyVideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Property
+        # fields = "__all__"
+        exclude = ['category']

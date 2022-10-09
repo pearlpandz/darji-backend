@@ -1,0 +1,638 @@
+{
+	"info": {
+		"_postman_id": "a18c1eb8-eb0f-44dc-903d-bfa441b6b956",
+		"name": "ownerflats",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5902920"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mobileNumber\":\"8610100498\",\n    \"password\":\"12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/login",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Muthupandi V\",\n    \"mobileNumber\":\"8610100498\",\n    \"password\":\"12345\",\n    \"email\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/register",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forget Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mobileNumber\":\"7502022870\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/forgetpassword",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"forgetpassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Mobile Number",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"mobileNumber\":\"8610100498\",\n    \"isOtpMatched\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/verifyMobileNumber",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"verifyMobileNumber"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "View Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/profile",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update basic info",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Muthupandi Velmurugan\",\n    \"email\": \"pearlpandzz@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/updateinfo",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"updateinfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile picture",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profilePic",
+									"type": "file",
+									"src": "/Users/m.a.velmurugan/Documents/self/ownerflats-app/src/assets/images/icon.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/updateprofilepic",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"updateprofilepic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"oldPassword\": \"12345\",\n    \"newPassword\": \"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/changepassword",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"changepassword"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "companies",
+			"item": [
+				{
+					"name": "Add Company",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Test Company",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "test description",
+									"type": "text"
+								},
+								{
+									"key": "logo",
+									"type": "file",
+									"src": "/Users/m.a.velmurugan/Documents/self/ownerflats-app/src/assets/images/adaptive-icon.png"
+								},
+								{
+									"key": "banner",
+									"type": "file",
+									"src": "/Users/m.a.velmurugan/Documents/self/ownerflats-app/src/assets/images/rent.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/company",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"company"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single Company Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/company/12",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"company",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Company Info",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "new test",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "hello lajsdf",
+									"type": "text"
+								},
+								{
+									"key": "isVerified",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/company/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"company",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Company Logo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "logo",
+									"type": "file",
+									"src": "/Users/m.a.velmurugan/Documents/self/ownerflats-app/src/assets/images/rent.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/company/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"company",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Company Banner",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "banner",
+									"type": "file",
+									"src": "/Users/m.a.velmurugan/Documents/self/ownerflats-app/src/assets/images/adaptive-icon.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/company/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"company",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Company",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "isVerified",
+									"value": "false",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/company/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"company",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Company",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/company/12",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"company",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List of Companies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/companies",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"companies"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Global Categories",
+			"item": [
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "appartment",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "icon",
+									"type": "file",
+									"src": "/Users/m.a.velmurugan/Documents/self/ownerflats-app/src/assets/images/list.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/category",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/category/2",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"category",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit  Info",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "appartmentt",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "shot notes about the category",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/category/2",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"category",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Logo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "icon",
+									"type": "file",
+									"src": "/Users/m.a.velmurugan/Documents/self/ownerflats-app/src/assets/images/icon.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseurl}}/category/2",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"category",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Company",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/category/2",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"category",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/categories",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Properties",
+			"item": [
+				{
+					"name": "Get All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/properties",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"properties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/property/9",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"property",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
