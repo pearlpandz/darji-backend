@@ -3,6 +3,7 @@ from .views.user import *
 from .views.company import *
 from .views.category import *
 from .views.property import *
+from .views.favourite import *
 
 # URL Configuration
 urlpatterns = [
@@ -32,5 +33,10 @@ urlpatterns = [
     # Property
     path('properties', getProperties),
     path('property/<str:pk>', PropertyView),
+
+    # Favourite
+    path('favourites', getAllFavourites),
+    path('favourite', addToFavourite),
+    path('favourite/<str:pk>', RemovePropertyFromFavourites)
 
 ]

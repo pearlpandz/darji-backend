@@ -2,7 +2,7 @@ from rest_framework import serializers
 from api.models.customer import Customer
 from api.models.company import Company
 from api.models.category import Category
-from api.models.property import Property
+from api.models.property import Property, FavouriteProperty
 
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
@@ -49,3 +49,9 @@ class PropertyVideoSerializer(serializers.ModelSerializer):
         model = Property
         # fields = "__all__"
         exclude = ['category']
+
+class FavouritePropertySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FavouriteProperty
+        fields = "__all__"
+        
