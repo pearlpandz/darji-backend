@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from api.models.customer import Customer
 from api.models.company import Company
 from api.models.category import Category
+from api.models.propertytype import PropertyType
 from api.models.property import Property, PropertyImage, PropertyVideo
 from api.models.serializers import CustomerSerializer
 
@@ -36,6 +37,15 @@ class CategoryConfig(admin.ModelAdmin):
     list_per_page = 10
     sortable_by=['id','name']
 
+class PropertyTypeConfig(admin.ModelAdmin):
+    exclude = []
+    list_display = ['id','name','description']
+    search_fields=('name',)
+    list_filter=('name',)
+    # actions=[make_inactive,make_active]
+    list_per_page = 10
+    sortable_by=['id','name']
+
         
 class ImagesInline(admin.StackedInline):
     model = PropertyImage
@@ -53,4 +63,5 @@ class PropertyConfig(admin.ModelAdmin):
 admin.site.register(Customer, CustomerConfig)
 admin.site.register(Company, CompanyConfig)
 admin.site.register(Category, CategoryConfig)
+admin.site.register(PropertyType, PropertyTypeConfig)
 admin.site.register(Property, PropertyConfig)

@@ -29,10 +29,45 @@ def add_product(request):
 def getProperties(request):
     valid_user_id = validateUser(request)
     if valid_user_id:
-        instance = Property.objects.all()
+        instances = Property.objects.all()
+        properties = []
+        for instance in instances:
+            hasError = False
+            try:
+                img_instance = PropertyImage.objects.filter(product=instance.id)
+                video_instance = PropertyVideo.objects.filter(product=instance.id)
 
-        serializer = PropertySerializer(instance=instance, many=True)
-        return Response(serializer.data)
+            except ObjectDoesNotExist:
+                products = {"error": "Property is not found!"}
+                hasError = True
+
+            if not hasError:
+                propertyItem = {
+                    "id": instance.id,
+                    "name": instance.name,
+                    "description": instance.description,
+                    "ratings": instance.ratings,
+                    "price": instance.price,
+                    "noOfBed": instance.noOfBed,
+                    "noOfBathroom": instance.noOfBathroom,
+                    "sqft": instance.sqft,
+                    "location": instance.location,
+                    "category": [{
+                        "id": category.id,
+                        "name": category.name,
+                        "description": category.description,
+                        "icon": str(category.icon)
+                    } for category in instance.category.all()],
+                    "propertyType": [{
+                        "id": propertyType.id,
+                        "name": propertyType.name,
+                        "description": propertyType.description,
+                    } for propertyType in instance.propertyType.all()],
+                    "images": [str(url) for url in img_instance.all()],
+                    "videos": [str(url) for url in video_instance.all()],
+                }
+                properties.append(propertyItem)
+        return Response(properties)
 
 
 # get/update/delete single product
@@ -53,14 +88,26 @@ def PropertyView(request, pk):
 
             if not hasError:
                 return Response({
+                    "id": instance.id,
                     "name": instance.name,
                     "description": instance.description,
+                    "ratings": instance.ratings,
+                    "price": instance.price,
+                    "noOfBed": instance.noOfBed,
+                    "noOfBathroom": instance.noOfBathroom,
+                    "sqft": instance.sqft,
+                    "location": instance.location,
                     "category": [{
                         "id": category.id,
-                        "name": category.name, 
+                        "name": category.name,
                         "description": category.description,
-                        "icon": str(category.icon) 
-                        } for category in instance.category.all()],
+                        "icon": str(category.icon)
+                    } for category in instance.category.all()],
+                    "propertyType": [{
+                        "id": propertyType.id,
+                        "name": propertyType.name,
+                        "description": propertyType.description,
+                    } for propertyType in instance.propertyType.all()],
                     "images": [str(url) for url in img_instance.all()],
                     "videos": [str(url) for url in video_instance.all()],
                 })

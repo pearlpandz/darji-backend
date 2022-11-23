@@ -3,6 +3,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser
 from multiselectfield import MultiSelectField
 from api.models.category import Category
+from api.models.propertytype import PropertyType
 from api.models.customer import Customer
 from datetime import datetime
 import os
@@ -12,6 +13,13 @@ class Property(models.Model):
     name = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
     category = models.ManyToManyField(Category, blank=True)
+    propertyType= models.ManyToManyField(PropertyType, blank=True)
+    ratings= models.FloatField(blank=True)
+    price= models.FloatField(blank=True)
+    noOfBed= models.FloatField(blank=True)
+    noOfBathroom= models.FloatField(blank=True)
+    sqft= models.FloatField(blank=True)
+    location= models.CharField(max_length=255, blank=True)
 
     REQUIRED_FIELDS = ['name']
 
