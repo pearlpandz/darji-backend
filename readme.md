@@ -1,3 +1,6 @@
+**Create Super Admin**
+python manage.py createsuperuser
+
 **Start a local web server**  <br />
 python manage.py runserver
 

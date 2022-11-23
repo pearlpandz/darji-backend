@@ -1,13 +1,5 @@
 from rest_framework import serializers
 from api.models.customer import Customer
-from api.models.company import Company
-from api.models.category import Category
-from api.models.property import Property, FavouriteProperty
-
-class CompanySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Company
-        fields = ['id', 'name','description', 'logo', 'banner', 'isVerified']
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,32 +18,3 @@ class CustomerSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ['id', 'name','description', 'icon']
-
-class PropertySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Property
-        # fields = "__all__"
-        exclude = ['category']
-
-class PropertyImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Property
-        # fields = "__all__"
-        exclude = ['category']
-
-class PropertyVideoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Property
-        # fields = "__all__"
-        exclude = ['category']
-
-class FavouritePropertySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FavouriteProperty
-        fields = "__all__"
-        

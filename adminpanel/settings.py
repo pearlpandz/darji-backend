@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'adminpanel.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ownerflats',
+        'NAME': 'darji',
         'USER': 'postgres',
         'PASSWORD': '1234', 
         'HOST': 'localhost'
