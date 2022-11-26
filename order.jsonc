@@ -1,0 +1,47 @@
+{
+    "order": {
+        "gender": "male", // ["male", "female"]
+        "type": "shirt", //["shirt", "pant", "jacket", "suit"]
+        "designType": "i know my design", //["design","design my self"]
+        "referenceImage": [ // upload from user device
+            // ... list of images
+        ],
+        "cloth_couriered": false, // if this true, we no need to store any other information related to cloth
+        "cloth_pickuploc": "", // if this empty, we have to store cloth info
+        "cloth_length": 12.5,
+        "cloth_total_price": 626.25,
+        "cloth_id": 12,
+        "design": {
+            "collar": "the spread",
+            "pocket": "single pocket",
+            "sleeves": "full hand",
+            "cuff": "single button",
+            "cuffSide": "inside",
+            "back": "no pleats",
+            "stamp": "collar",
+            "notes": "....notes...."
+        },
+        "measurements": {
+            "bodyType": "athletic", //["athletic","slight belly","significant belly"]
+            "shirtSize": 40,
+            "shoulderType": "average", //["average","sloping"]
+            "height": "5'2",
+            "fit": "super slim", //["super slim","structured","relaxed"]
+            "notes": ".....notes....."
+        },
+        "deliveryAddress": "",
+        "totalPrice": "",
+        "alreadyPaid": "",
+        "orderId": 9,
+        "userId": 78
+    },
+    "cloth": {
+        "id": 12,
+        "name": "",
+        "description": "........",
+        "image": ".../url",
+        "material": "",
+        "color": "",
+        "pricePermeter": ""
+    }
+}

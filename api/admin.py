@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from api.models.customer import Customer
+from api.models.cloth import Cloth
 from api.models.serializers import CustomerSerializer
 
 # Register your models here.
@@ -14,4 +15,14 @@ class CustomerConfig(admin.ModelAdmin):
     sortable_by=['id','name','provider']
     # raw_id_fields=['companyId']
 
+class ClothConfig(admin.ModelAdmin):
+    exclude = []
+    list_display = ['id','image','name','material','color','pricePermeter']
+    search_fields=('name','material','color','pricePermeter')
+    list_filter=('name','material','color','pricePermeter')
+    # actions=[make_inactive,make_active]
+    list_per_page = 10
+    sortable_by=['id','name','material','color','pricePermeter']
+
 admin.site.register(Customer, CustomerConfig)
+admin.site.register(Cloth, ClothConfig)

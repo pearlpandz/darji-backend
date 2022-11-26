@@ -1,5 +1,6 @@
 from django.urls import path
 from .views.user import *
+from .views.cloth import *
 
 # URL Configuration
 urlpatterns = [
@@ -16,4 +17,8 @@ urlpatterns = [
     path('updateprofilepic', UpdateProfilePic),
     path('changepassword', ChangePassword),
 
+    # Company
+    path('cloths', getItems),
+    path('cloth', addItem),
+    path('cloth/<str:pk>', singleItem),
 ]

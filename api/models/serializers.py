@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from api.models.customer import Customer
+from api.models.cloth import Cloth
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,3 +19,8 @@ class CustomerSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+class ClothSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cloth
+        fields = ['id', 'name','description', 'image','material','color','pricePermeter']
