@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from api.models.customer import Customer
 from api.models.cloth import Cloth
+from api.models.order import Order, ReferenceImage
 from api.models.serializers import CustomerSerializer
 
 # Register your models here.
@@ -24,5 +25,13 @@ class ClothConfig(admin.ModelAdmin):
     list_per_page = 10
     sortable_by=['id','name','material','color','pricePermeter']
 
+class ImagesInline(admin.StackedInline):
+    model = ReferenceImage
+    extra = 0
+
+class OrderConfig(admin.ModelAdmin):
+    inlines = [ImagesInline]
+
 admin.site.register(Customer, CustomerConfig)
 admin.site.register(Cloth, ClothConfig)
+admin.site.register(Order, OrderConfig)

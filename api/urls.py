@@ -1,6 +1,7 @@
 from django.urls import path
 from .views.user import *
 from .views.cloth import *
+from .views.order import *
 
 # URL Configuration
 urlpatterns = [
@@ -21,4 +22,9 @@ urlpatterns = [
     path('cloths', getItems),
     path('cloth', addItem),
     path('cloth/<str:pk>', singleItem),
+
+    # Order
+    path('order', newOrder),
+    path('updateOrder/<str:pk>', updateOrder),
+    #path('clothSelection/<str:pk>', clothSelection),
 ]
