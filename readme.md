@@ -12,6 +12,7 @@ python manage.py migrate
 
 **Root User Credentials**<br />
 admin/12345
+darjitailormade@gmail.com
 
 **Create migration for specific app**
 ./manage.py makemigrations <myapp>
