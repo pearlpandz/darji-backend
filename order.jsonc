@@ -6,10 +6,10 @@
         // [post] api call
         "gender": "male", // ["male", "female"]
         "orderType": "shirt", //["shirt", "pant", "jacket", "suit"]
-        "designType": "i know my design", //["design","design my self"]
+        "designType": "i know my design", //["i know my design","design by myself"]
 
         // [put] api call
-        "referenceImage": [ // upload from user device
+        "referenceImage": [ // upload from user device and will store in different table
             // ... list of images
         ],
         
@@ -31,7 +31,7 @@
         "cloth_id": 12,
 
         // [put] api call
-        "orderedDesign": { 
+        "orderedDesign": { // it's common for any kind of dress shirt/pant/skirt/suit/coat/t-shirt and etc.,
             "collar": "the spread",
             "pocket": "single pocket",
             "sleeves": "full hand",

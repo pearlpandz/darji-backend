@@ -1,5 +1,6 @@
 from django.db import models
 from .customer import Customer
+import os
 
 class Order(models.Model):
     gender = models.CharField(max_length=255, blank=True)

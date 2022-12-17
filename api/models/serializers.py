@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from api.models.customer import Customer
 from api.models.cloth import Cloth
-from api.models.order import Order
+from api.models.order import Order, ReferenceImage
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,4 +29,9 @@ class ClothSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
+        fields = '__all__'
+
+class ReferenceImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReferenceImage
         fields = '__all__'

@@ -23,10 +23,10 @@ class Customer(AbstractBaseUser, models.Model):
     name = models.CharField(max_length=255)
     usertype = models.CharField(
         max_length=255, default='customer', choices=USERTYPE)
-    password = models.CharField(max_length=255)
-    mobileNumber = models.CharField(max_length=255, unique=True)
+    password = models.CharField(max_length=255, blank=True)
+    mobileNumber = models.CharField(max_length=255, unique=True, blank=True)
     isMobileNumberVerified = models.BooleanField(default=False)
-    email = models.CharField(max_length=255, blank=True)
+    email = models.CharField(max_length=255, blank=True, unique=True)
     profilePic = models.ImageField(
         null=True, blank=True, upload_to=get_profile_image_path)
     provider = models.CharField(

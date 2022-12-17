@@ -59,6 +59,38 @@ def LoginView(request):
     return response
 
 
+@api_view(['POST'])
+def SocialLoginView(request):
+    email = request.data['email']
+    provider = request.data['provider'] 
+    
+    user = Customer.objects.filter(email=email, provider=provider).first()
+    
+    if user is None:
+        raise AuthenticationFailed('User not found!')
+    
+    user.last_login = datetime.datetime.now()
+    user.save()
+
+    payload = {
+        'id': user.id,
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+        'iat': datetime.datetime.utcnow()
+    }
+
+    # token expire time 1hour
+    token = jwt.encode(payload, 'secret', algorithm='HS256')
+
+    response = Response()
+
+    response.set_cookie(key='jwt', value=token, httponly=True)
+    response.data = {
+        'message': 'Successfully Loggedin!'
+    }
+    return response
+
+
+
 # Forget Password - Get mobileNumber then validate and send otp
 @api_view(['POST'])
 def ForgetPassword(request):

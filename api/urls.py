@@ -8,6 +8,7 @@ urlpatterns = [
 
     # Auth
     path('login', LoginView),
+    path('sociallogin', SocialLoginView),
     path('register', RegisterView),
     path('forgetpassword', ForgetPassword),
     path('verifyMobileNumber', VerifyMobileNumber),
@@ -24,7 +25,9 @@ urlpatterns = [
     path('cloth/<str:pk>', singleItem),
 
     # Order
+    path('orders', getOrderList),
     path('order', newOrder),
+    path('order/<str:pk>', getSingleOrder),
     path('updateOrder/<str:pk>', updateOrder),
-    #path('clothSelection/<str:pk>', clothSelection),
+    path('orderReferenceImage/<str:pk>', orderReferenceImage)
 ]
