@@ -1,10 +1,12 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework import status
 from api.models.customer import Customer
 import jwt, datetime
 from api.models.serializers import CustomerSerializer
 from django.contrib.auth.hashers import make_password
+from django.http import JsonResponse
 from api.common import validateUser
 import math
 import random
@@ -15,11 +17,15 @@ import shutil
 # Register - Get mobileNumber, password, name, email and save it
 @api_view(['POST'])
 def RegisterView(request):
-    serializer = CustomerSerializer(data=request.data)
-    serializer.is_valid(raise_exception=True)
-    serializer.save()
-    return Response(serializer.data)
-
+    try:
+        serializer = CustomerSerializer(data=request.data)
+    except Exception as e:
+        return Response({"error": e.args}, status=500)  
+    if serializer.is_valid():
+        serializer.save()
+        return Response(data=serializer.data, status=200)
+    
+    return Response({"error": serializer.errors }, status=400)
 
 # Login - Get mobileNumber, password then validate and set jwt token in cookies
 @api_view(['POST'])
@@ -27,13 +33,13 @@ def LoginView(request):
     mobileNumber = request.data['mobileNumber']
     password = request.data['password']
 
-    user = Customer.objects.filter(mobileNumber=mobileNumber).first()
+    user = Customer.objects.filter(mobileNumber=mobileNumber).first() 
 
     if user is None:
         raise AuthenticationFailed('User not found!')
 
     if not user.check_password(password):
-        raise AuthenticationFailed('Incorrect password!')
+        raise AuthenticationFailed('The username or passwrod is incorrect')
     
     if not user.isMobileNumberVerified:
         raise AuthenticationFailed('Please verify Mobile Number and proceed!')
@@ -90,6 +96,29 @@ def SocialLoginView(request):
     return response
 
 
+# Forget Password - Get mobileNumber then validate and send otp
+@api_view(['PUT'])
+def GetOtp(request, pk):
+    mobileNumber = request.data['mobileNumber']
+    user = Customer.objects.get(id = pk)
+
+    if user is None:
+        raise AuthenticationFailed('User not found!')
+
+    try:
+        user.mobileNumber = mobileNumber
+        user.save()
+        otp = math.floor(100000 + random.random() * 900000)
+        print(otp)
+        response = Response()
+        response.data = {"otp": otp}
+        return response
+    except Exception as e:
+        return Response({"error": e.args}, status=500)  
+
+    return Response({"error": serializer.errors }, status=400)
+    
+    
 
 # Forget Password - Get mobileNumber then validate and send otp
 @api_view(['POST'])
@@ -113,7 +142,6 @@ def ForgetPassword(request):
 # Verirfy Mobile Number - Get otp then set isMobileNumberVerified = true
 @api_view(['PUT'])
 def VerifyMobileNumber(request):
-
     mobileNumber = request.data['mobileNumber']
     isOtpMatched = request.data['isOtpMatched']
     user = Customer.objects.get(mobileNumber=mobileNumber)
@@ -123,11 +151,25 @@ def VerifyMobileNumber(request):
     
     user.isMobileNumberVerified = isOtpMatched
     user.save()
-    
     response = Response()
-    response.data = {
-        'message': 'Mobile Number Successfully Verified!' if isOtpMatched else 'Wrong OTP!, Mobile Number verification failed.'
-    }
+    if user.provider is 'oauth':
+        response.data = {
+            'message': 'Mobile Number Successfully Verified!' if isOtpMatched else 'Wrong OTP!, Mobile Number verification failed.'
+        }
+    else:
+        payload = {
+            'id': user.id,
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+            'iat': datetime.datetime.utcnow()
+        }
+
+        # token expire time 1hour
+        token = jwt.encode(payload, 'secret', algorithm='HS256')
+
+        response.set_cookie(key='jwt', value=token, httponly=True)
+        response.data = {
+            'message': 'Successfully Loggedin!'
+        }
     return response
 
 

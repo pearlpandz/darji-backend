@@ -8,8 +8,9 @@ urlpatterns = [
 
     # Auth
     path('login', LoginView),
-    path('sociallogin', SocialLoginView),
+    path('socialLogin', SocialLoginView),
     path('register', RegisterView),
+    path('getOtp/<str:pk>', GetOtp),
     path('forgetpassword', ForgetPassword),
     path('verifyMobileNumber', VerifyMobileNumber),
 
