@@ -2,21 +2,44 @@ from django.db import models
 from .customer import Customer
 import os
 
+STATUS = (
+    ('draft', 'Draft'),
+    ('complete', 'Complete'),
+)
+
+PAYMENT_STATUS = (
+    ('pending', 'pending'),
+    ('partial', 'Partially Completed'),
+    ('complete', 'complete'),
+)
+
 class Order(models.Model):
+    userId = models.ForeignKey(Customer, null=True, blank=True, on_delete=models.SET_NULL)
     gender = models.CharField(max_length=255, blank=True)
     orderType = models.CharField(max_length=255, blank=True)
     designType = models.CharField(max_length=255, blank=True)
-    cloth_couriered = models.BooleanField(default=False)
-    cloth_pickuplocation = models.TextField(blank=True)
+    
+    cloth_id = models.IntegerField(blank=True, null=True)
     cloth_length = models.FloatField(default=0)
     cloth_total_price = models.FloatField(blank=True, default=0)
-    cloth_id = models.IntegerField(blank=True, null=True)
+    cloth_couriered = models.BooleanField(default=False)
+    cloth_pickuplocation = models.TextField(blank=True)
+    
     orderedDesign = models.JSONField(blank=True, null=True)
+    
     measurements = models.JSONField(blank=True, null=True)
-    deliveryAddress = models.TextField(blank=True)
+    measurementAddress = models.TextField(blank=True)
+
     totalPrice = models.FloatField(blank=True, default=0)
     alreadyPaid = models.FloatField(blank=True, default=0)
-    userId = models.ForeignKey(Customer, null=True, blank=True, on_delete=models.SET_NULL)
+    
+    orderDate = models.DateTimeField(auto_now=True)
+    orderStatus = models.CharField(max_length=255, choices=STATUS, default='draft')
+    
+    orderPaymentStatus = models.CharField(max_length=255, choices=PAYMENT_STATUS, default='pending')
+    orderDeliveryDate = models.DateTimeField(null=True)
+    deliveryAddress = models.TextField(blank=True)
+    orderDeliveryStatus = models.CharField(max_length=255, choices=PAYMENT_STATUS, default='pending')
 
 class ReferenceImage(models.Model):
     def get_image_path(instance, filename):

@@ -2,6 +2,7 @@ from django.urls import path
 from .views.user import *
 from .views.cloth import *
 from .views.order import *
+from .views.pincode import *
 
 # URL Configuration
 urlpatterns = [
@@ -30,5 +31,8 @@ urlpatterns = [
     path('order', newOrder),
     path('order/<str:pk>', getSingleOrder),
     path('updateOrder/<str:pk>', updateOrder),
-    path('orderReferenceImage/<str:pk>', orderReferenceImage)
+    path('orderReferenceImage/<str:pk>', orderReferenceImage),
+
+    # Pincode
+    path('pincodes', get_pincodes)
 ]

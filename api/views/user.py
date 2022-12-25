@@ -49,7 +49,7 @@ def LoginView(request):
 
     payload = {
         'id': user.id,
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60*24*30), # expiry time is 1month
         'iat': datetime.datetime.utcnow()
     }
 
@@ -60,6 +60,7 @@ def LoginView(request):
 
     response.set_cookie(key='jwt', value=token, httponly=True)
     response.data = {
+        'user': user,
         'message': 'Successfully Loggedin!'
     }
     return response
@@ -80,7 +81,7 @@ def SocialLoginView(request):
 
     payload = {
         'id': user.id,
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60*24*30),
         'iat': datetime.datetime.utcnow()
     }
 
@@ -91,6 +92,7 @@ def SocialLoginView(request):
 
     response.set_cookie(key='jwt', value=token, httponly=True)
     response.data = {
+        'user': user,
         'message': 'Successfully Loggedin!'
     }
     return response
@@ -152,14 +154,14 @@ def VerifyMobileNumber(request):
     user.isMobileNumberVerified = isOtpMatched
     user.save()
     response = Response()
-    if user.provider is 'oauth':
+    if user.provider == 'oauth':
         response.data = {
             'message': 'Mobile Number Successfully Verified!' if isOtpMatched else 'Wrong OTP!, Mobile Number verification failed.'
         }
     else:
         payload = {
             'id': user.id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60*24*30),
             'iat': datetime.datetime.utcnow()
         }
 
@@ -168,6 +170,7 @@ def VerifyMobileNumber(request):
 
         response.set_cookie(key='jwt', value=token, httponly=True)
         response.data = {
+            'user': user,
             'message': 'Successfully Loggedin!'
         }
     return response

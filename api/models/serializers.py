@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from api.models.customer import Customer
 from api.models.cloth import Cloth
+from api.models.pincode import Pincode
 from api.models.order import Order, ReferenceImage
 from rest_framework.validators import ValidationError, UniqueValidator
 
@@ -60,4 +61,9 @@ class OrderSerializer(serializers.ModelSerializer):
 class ReferenceImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReferenceImage
+        fields = '__all__'
+
+class PinSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pincode
         fields = '__all__'

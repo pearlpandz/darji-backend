@@ -63,8 +63,9 @@ def orderReferenceImage(request, pk):
     hasError = False
     try:
         res = []
+        print(request.FILES)
         references = dict((request.FILES).lists()).get('reference', None)
-        print(len(references))
+        print("images count", len(references))
         if references:
             for reference in references:
                 obj = {
@@ -75,10 +76,11 @@ def orderReferenceImage(request, pk):
                 if serializer.is_valid():
                     serializer.save()
                     res.append(serializer.data)
-    except:
+    except Exception as e:
+        print("error===>",e)
         error = {"error": "Something went wrong"}
         hasError = True
     
     if not hasError:
         return Response(res)
-    return Response(error)
+    return Response(error, status=400)

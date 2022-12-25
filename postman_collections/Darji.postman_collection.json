@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "a18c1eb8-eb0f-44dc-903d-bfa441b6b956",
-		"name": "ownerflats",
+		"_postman_id": "3f1e1aae-e9d2-493f-9b9a-a8ae45005c73",
+		"name": "Darji",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "5902920"
 	},
@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"mobileNumber\":\"8610100498\",\n    \"password\":\"12345\"\n}",
+							"raw": "{\"mobileNumber\": \"7502022870\", \"password\": \"test@123\"}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -36,13 +36,65 @@
 					"response": []
 				},
 				{
-					"name": "Register",
+					"name": "Social Login",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\":\"Muthupandi V\",\n    \"mobileNumber\":\"8610100498\",\n    \"password\":\"12345\",\n    \"email\": \"\"\n}",
+							"raw": "{\"email\": \"darjitailormade@gmail.com\", \"name\": \"Darji Tailor\", \"provider\": \"facebook\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/socialLogin",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"socialLogin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register - Oauth",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"test user\",\n    \"mobileNumber\":\"8610100498\",\n    \"password\":\"test@123\",\n    \"email\": \"test@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/register",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register - Social",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Darji Tailor\",\n    \"email\": \"darjitailormade@gmail.com\",\n    \"provider\": \"facebook\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -68,7 +120,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"mobileNumber\":\"7502022870\"\n}",
+							"raw": "{\n    \"mobileNumber\":\"8610100498\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -113,10 +165,11 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "General functions like login, register, forget password and mobile number verification"
 		},
 		{
-			"name": "Customer",
+			"name": "User & Settings",
 			"item": [
 				{
 					"name": "View Profile",
@@ -214,223 +267,42 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "User profile view, profile update, profile info update and change password"
 		},
 		{
-			"name": "companies",
+			"name": "Cloths",
 			"item": [
 				{
-					"name": "Add Company",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "Test Company",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "test description",
-									"type": "text"
-								},
-								{
-									"key": "logo",
-									"type": "file",
-									"src": "/Users/m.a.velmurugan/Documents/self/ownerflats-app/src/assets/images/adaptive-icon.png"
-								},
-								{
-									"key": "banner",
-									"type": "file",
-									"src": "/Users/m.a.velmurugan/Documents/self/ownerflats-app/src/assets/images/rent.png"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{baseurl}}/company",
-							"host": [
-								"{{baseurl}}"
-							],
-							"path": [
-								"company"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Single Company Name",
+					"name": "Get List of Items",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseurl}}/company/12",
+							"raw": "{{baseurl}}/cloths",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"company",
-								"12"
+								"cloths"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Edit Company Info",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "new test",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "hello lajsdf",
-									"type": "text"
-								},
-								{
-									"key": "isVerified",
-									"value": "true",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{baseurl}}/company/1",
-							"host": [
-								"{{baseurl}}"
-							],
-							"path": [
-								"company",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Edit Company Logo",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "logo",
-									"type": "file",
-									"src": "/Users/m.a.velmurugan/Documents/self/ownerflats-app/src/assets/images/rent.png"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{baseurl}}/company/1",
-							"host": [
-								"{{baseurl}}"
-							],
-							"path": [
-								"company",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Edit Company Banner",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "banner",
-									"type": "file",
-									"src": "/Users/m.a.velmurugan/Documents/self/ownerflats-app/src/assets/images/adaptive-icon.png"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{baseurl}}/company/1",
-							"host": [
-								"{{baseurl}}"
-							],
-							"path": [
-								"company",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Verify Company",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "isVerified",
-									"value": "false",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{baseurl}}/company/1",
-							"host": [
-								"{{baseurl}}"
-							],
-							"path": [
-								"company",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Company",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseurl}}/company/12",
-							"host": [
-								"{{baseurl}}"
-							],
-							"path": [
-								"company",
-								"12"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get List of Companies",
+					"name": "Get Single Item",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseurl}}/companies",
+							"raw": "{{baseurl}}/cloth/2",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"companies"
+								"cloth",
+								"2"
 							]
 						}
 					},
@@ -439,10 +311,95 @@
 			]
 		},
 		{
-			"name": "Global Categories",
+			"name": "Orders",
 			"item": [
 				{
-					"name": "Add",
+					"name": "Order - List",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"gender\": \"male\",\n    \"orderType\": \"shirt\",\n    \"designType\": \"i know my design\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/orders",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order - Single Order",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"gender\": \"male\",\n    \"orderType\": \"shirt\",\n    \"designType\": \"i know my design\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/order/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order - Create New",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"gender\": \"male\",\n    \"orderType\": \"shirt\",\n    \"designType\": \"i know my design\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/order",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order - Upload Reference Image",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -450,79 +407,50 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "name",
-									"value": "appartment",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "icon",
+									"key": "reference",
 									"type": "file",
-									"src": "/Users/m.a.velmurugan/Documents/self/ownerflats-app/src/assets/images/list.png"
+									"src": [
+										"/Users/m.a.velmurugan/Documents/self/darji/src/assets/images/list.png",
+										"/Users/m.a.velmurugan/Documents/self/darji/src/assets/images/logo.jpg"
+									]
 								}
 							]
 						},
 						"url": {
-							"raw": "{{baseurl}}/category",
+							"raw": "{{baseurl}}/orderReferenceImage/1",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"category"
+								"orderReferenceImage",
+								"1"
 							]
-						}
+						},
+						"description": "- Uploaded reference image will store in **api_referenceimage** table\n- Multiple file upload is done\n- In Django, rest framework will run multiple iteration to store reference image along with the order id"
 					},
 					"response": []
 				},
 				{
-					"name": "Get Single",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseurl}}/category/2",
-							"host": [
-								"{{baseurl}}"
-							],
-							"path": [
-								"category",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Edit  Info",
+					"name": "Order - Customize Design",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "appartmentt",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "shot notes about the category",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\n    \"orderedDesign\": {\n        \"collar\": \"the spread\",\n        \"pocket\": \"single pocket\",\n        \"sleeves\": \"full hand\",\n        \"cuff\": \"single button\",\n        \"cuffSide\": \"inside\",\n        \"back\": \"no pleats\",\n        \"stamp\": \"collar\",\n        \"notes\": \"this shirt should looks clean and neat, I'm going to use this for very important client meeting\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
-							"raw": "{{baseurl}}/category/2",
+							"raw": "{{baseurl}}/updateOrder/2",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"category",
+								"updateOrder",
 								"2"
 							]
 						}
@@ -530,27 +458,26 @@
 					"response": []
 				},
 				{
-					"name": "Edit Logo",
+					"name": "Order - Update measurements",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "icon",
-									"type": "file",
-									"src": "/Users/m.a.velmurugan/Documents/self/ownerflats-app/src/assets/images/icon.png"
+							"mode": "raw",
+							"raw": "{\n    \"measurements\": {\n        \"bodyType\": \"athletic\",\n        \"shirtSize\": 40,\n        \"shoulderType\": \"average\",\n        \"height\": \"5'2\",\n        \"fit\": \"super slim\",\n        \"notes\": \"please make it more comfortable\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
-							"raw": "{{baseurl}}/category/2",
+							"raw": "{{baseurl}}/updateOrder/2",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"category",
+								"updateOrder",
 								"2"
 							]
 						}
@@ -558,17 +485,26 @@
 					"response": []
 				},
 				{
-					"name": "Delete Company",
+					"name": "Order - Cloth Selection",
 					"request": {
-						"method": "DELETE",
+						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    // \"cloth_couriered\": false, // if customer courier their cloth to our office\n    // \"cloth_pickuplocation\": \"\", // elif customer have cloth, he wish we have to collect from their location\n    \"cloth_length\": 3, // else customer ready purchase the cloth from our cloths store\n    \"cloth_total_price\": 300,\n    \"cloth_id\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseurl}}/category/2",
+							"raw": "{{baseurl}}/updateOrder/2",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"category",
+								"updateOrder",
 								"2"
 							]
 						}
@@ -576,57 +512,27 @@
 					"response": []
 				},
 				{
-					"name": "Get List",
+					"name": "Order - Payment",
 					"request": {
-						"method": "GET",
+						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deliveryAddress\": \"2/651, Flat No.2, Zion Street, Thinamani Nagar, Koodal Nagar, Madurai - 625018\",\n    \"totalPrice\": 1000,\n    \"alreadyPaid\": 600\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseurl}}/categories",
+							"raw": "{{baseurl}}/updateOrder/2",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
-								"categories"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Properties",
-			"item": [
-				{
-					"name": "Get All",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseurl}}/properties",
-							"host": [
-								"{{baseurl}}"
-							],
-							"path": [
-								"properties"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Single by id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseurl}}/property/9",
-							"host": [
-								"{{baseurl}}"
-							],
-							"path": [
-								"property",
-								"9"
+								"updateOrder",
+								"2"
 							]
 						}
 					},
