@@ -31,12 +31,25 @@ def getSingleOrder(request, pk):
 
 @api_view(['POST'])
 def newOrder(request):
+    print('new order calling')
     valid_user_id = validateUser(request)
-    request.data['userId'] = valid_user_id
-    serializer = OrderSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
+    if valid_user_id:
+        try:
+            request.data['userId'] = valid_user_id
+            serializer = OrderSerializer(data=request.data)
+            print('api calling...')
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=200)
+            else:
+                print('serializer is not valid')
+                print(serializer.errors)
+                error = {"error": "Something went wrong", "messages": serializer.errors}
+                return Response(error, status=400)
+        except Exception as e:
+            print("error===>",e)
+            error = {"error": "Something went wrong"}
+            return Response(error, status=500)
 
 
 # get/update/delete single Cloth

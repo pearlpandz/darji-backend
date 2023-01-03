@@ -1,13 +1,13 @@
 from rest_framework.response import Response
+from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed
-from rest_framework import status
 from api.models.customer import Customer
-import jwt, datetime
 from api.models.serializers import CustomerSerializer
 from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 from api.common import validateUser
+import jwt, datetime
 import math
 import random
 import os
@@ -32,8 +32,10 @@ def RegisterView(request):
 def LoginView(request):
     mobileNumber = request.data['mobileNumber']
     password = request.data['password']
-
-    user = Customer.objects.filter(mobileNumber=mobileNumber).first() 
+    
+    user = Customer.objects.filter(mobileNumber=mobileNumber).first()
+    
+    # user = Customer.objects.filter(mobileNumber=mobileNumber).first() 
 
     if user is None:
         raise AuthenticationFailed('User not found!')
@@ -60,7 +62,7 @@ def LoginView(request):
 
     response.set_cookie(key='jwt', value=token, httponly=True)
     response.data = {
-        'user': user,
+        'user': user.id,
         'message': 'Successfully Loggedin!'
     }
     return response
@@ -71,7 +73,7 @@ def SocialLoginView(request):
     email = request.data['email']
     provider = request.data['provider'] 
     
-    user = Customer.objects.filter(email=email, provider=provider).first()
+    user = Customer.objects.get(email=email, provider=provider)
     
     if user is None:
         raise AuthenticationFailed('User not found!')
@@ -92,7 +94,7 @@ def SocialLoginView(request):
 
     response.set_cookie(key='jwt', value=token, httponly=True)
     response.data = {
-        'user': user,
+        'user': user.id,
         'message': 'Successfully Loggedin!'
     }
     return response

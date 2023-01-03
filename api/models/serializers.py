@@ -36,7 +36,7 @@ class CustomerSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         provider = validated_data.get('provider', None)
         instance = self.Meta.model(**validated_data)
-        if provider is not 'oauth':
+        if provider != 'oauth':
             password = validated_data.pop('password', None)
 
             if password is not None:

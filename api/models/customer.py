@@ -21,7 +21,6 @@ USERTYPE = (
     ('owner', 'Owner')
 )
 
-
 class Customer(AbstractBaseUser, models.Model):
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255, unique=True)
