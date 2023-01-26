@@ -43,3 +43,6 @@ class Customer(AbstractBaseUser, models.Model):
 
     REQUIRED_FIELDS = ['name', 'usertype','email']
     USERNAME_FIELD = 'mobileNumber'
+
+    def __str__(self):
+        return f'{self.name}'

@@ -8,7 +8,7 @@ class Pincode(models.Model):
     REQUIRED_FIELDS = ['name','pincode']
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
     def __unicode__(self):
-        return self.name
+        return str(self.name)

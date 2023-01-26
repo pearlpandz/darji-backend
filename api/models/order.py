@@ -43,6 +43,9 @@ class Order(models.Model):
 
     razorpayPaymentId = models.CharField(max_length=255, blank=True, null=True)
 
+    def __str__(self):
+        return f'{self.id} - {self.razorpayPaymentId}'
+
 class ReferenceImage(models.Model):
     def get_image_path(instance, filename):
         return os.path.join('referenceImages', filename)
@@ -53,4 +56,4 @@ class ReferenceImage(models.Model):
     REQUIRED_FIELDS = ['url']
 
     def __str__(self):
-        return self.url.url
+        return f'{self.url}'

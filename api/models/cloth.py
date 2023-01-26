@@ -15,7 +15,7 @@ class Cloth(models.Model):
     REQUIRED_FIELDS = ['name','image','material','color']
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
 
     def __unicode__(self):
-        return self.name
+        return str(self.name)
