@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed
 from api.models.customer import Customer
+from django.core.exceptions import ObjectDoesNotExist
 from api.models.serializers import CustomerSerializer
 from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
@@ -73,14 +74,16 @@ def SocialLoginView(request):
     email = request.data['email']
     provider = request.data['provider'] 
     
-    user = Customer.objects.get(email=email, provider=provider)
-    
-    if user is None:
-        raise AuthenticationFailed('User not found!')
-    
+    try:
+        user = Customer.objects.get(email=email, provider=provider)
+    except Customer.DoesNotExist:
+        data = {
+            'message': 'User not found'
+        }
+        return Response(data, status=404)
+
     user.last_login = datetime.datetime.now()
     user.save()
-
     payload = {
         'id': user.id,
         'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60*24*30),
@@ -90,13 +93,14 @@ def SocialLoginView(request):
     # token expire time 1hour
     token = jwt.encode(payload, 'secret', algorithm='HS256')
 
-    response = Response()
-
+    
+    response = Response();
     response.set_cookie(key='jwt', value=token, httponly=True)
     response.data = {
         'user': user.id,
         'message': 'Successfully Loggedin!'
     }
+    response.status_code = 200
     return response
 
 
@@ -148,18 +152,23 @@ def ForgetPassword(request):
 def VerifyMobileNumber(request):
     mobileNumber = request.data['mobileNumber']
     isOtpMatched = request.data['isOtpMatched']
-    user = Customer.objects.get(mobileNumber=mobileNumber)
-
-    if user is None:
-        raise AuthenticationFailed('User not found!')
     
-    user.isMobileNumberVerified = isOtpMatched
-    user.save()
+    try:
+        user = Customer.objects.get(mobileNumber=mobileNumber)
+        user.isMobileNumberVerified = isOtpMatched
+        print("going to save")
+        user.save()
+    except:
+        if user is None:
+            raise AuthenticationFailed('User not found!')
+    
+    print(user)
     response = Response()
     if user.provider == 'oauth':
         response.data = {
             'message': 'Mobile Number Successfully Verified!' if isOtpMatched else 'Wrong OTP!, Mobile Number verification failed.'
         }
+        response.status_code = 200
     else:
         payload = {
             'id': user.id,
@@ -172,9 +181,10 @@ def VerifyMobileNumber(request):
 
         response.set_cookie(key='jwt', value=token, httponly=True)
         response.data = {
-            'user': user,
+            'user': user.id,
             'message': 'Successfully Loggedin!'
         }
+        response.status_code = 200
     return response
 
 

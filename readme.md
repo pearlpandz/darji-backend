@@ -27,3 +27,6 @@ darjitailormade@gmail.com
 
 **API Documentation**<br />
 https://documenter.getpostman.com/view/5902920/2s83zgsPrb
+
+**This will keep the pycaceh files and remove from git**
+git rm -r **/__pycache__  --cached 

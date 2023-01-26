@@ -41,6 +41,8 @@ class Order(models.Model):
     deliveryAddress = models.TextField(blank=True)
     orderDeliveryStatus = models.CharField(max_length=255, choices=PAYMENT_STATUS, default='pending')
 
+    razorpayPaymentId = models.CharField(max_length=255, blank=True, null=True)
+
 class ReferenceImage(models.Model):
     def get_image_path(instance, filename):
         return os.path.join('referenceImages', filename)
