@@ -10,7 +10,7 @@ from api.models.serializers import OrderSerializer, ReferenceImageSerializer
 def getOrderList(request):
     valid_user_id = validateUser(request)
     if valid_user_id:
-        items = Order.objects.all()
+        items = Order.objects.filter(userId=valid_user_id)
         serializer = OrderSerializer(instance=items, many=True)
         return Response(serializer.data)
 

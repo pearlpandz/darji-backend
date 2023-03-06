@@ -50,9 +50,11 @@ def LoginView(request):
     user.last_login = datetime.datetime.now()
     user.save()
 
+    # expiry time is 1month
+    expiry_time = datetime.datetime.utcnow() + datetime.timedelta(minutes=60*24*30)
     payload = {
         'id': user.id,
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60*24*30), # expiry time is 1month
+        'exp': expiry_time, 
         'iat': datetime.datetime.utcnow()
     }
 
@@ -61,7 +63,7 @@ def LoginView(request):
 
     response = Response()
 
-    response.set_cookie(key='jwt', value=token, httponly=True)
+    response.set_cookie(key='jwt', value=token, httponly=True, expiry_time=expiry_time)
     response.data = {
         'user': user.id,
         'message': 'Successfully Loggedin!'
@@ -84,9 +86,11 @@ def SocialLoginView(request):
 
     user.last_login = datetime.datetime.now()
     user.save()
+
+    expiry_time = datetime.datetime.utcnow() + datetime.timedelta(minutes=60*24*30)
     payload = {
         'id': user.id,
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60*24*30),
+        'exp': expiry_time,
         'iat': datetime.datetime.utcnow()
     }
 
@@ -95,7 +99,7 @@ def SocialLoginView(request):
 
     
     response = Response();
-    response.set_cookie(key='jwt', value=token, httponly=True)
+    response.set_cookie(key='jwt', value=token, httponly=True, expiry_time=expiry_time)
     response.data = {
         'user': user.id,
         'message': 'Successfully Loggedin!'
@@ -122,9 +126,7 @@ def GetOtp(request, pk):
         response.data = {"otp": otp}
         return response
     except Exception as e:
-        return Response({"error": e.args}, status=500)  
-
-    return Response({"error": serializer.errors }, status=400)
+        return Response({"error": e.args}, status=500)
     
     
 
@@ -170,16 +172,17 @@ def VerifyMobileNumber(request):
         }
         response.status_code = 200
     else:
+        expiry_time = datetime.datetime.utcnow() + datetime.timedelta(minutes=60*24*30)
         payload = {
             'id': user.id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60*24*30),
+            'exp': expiry_time,
             'iat': datetime.datetime.utcnow()
         }
 
         # token expire time 1hour
         token = jwt.encode(payload, 'secret', algorithm='HS256')
 
-        response.set_cookie(key='jwt', value=token, httponly=True)
+        response.set_cookie(key='jwt', value=token, httponly=True, expiry_time=expiry_time)
         response.data = {
             'user': user.id,
             'message': 'Successfully Loggedin!'
