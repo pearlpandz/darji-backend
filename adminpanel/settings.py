@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 import os
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -92,10 +96,11 @@ WSGI_APPLICATION = 'adminpanel.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'darji',
-        'USER': 'postgres',
-        'PASSWORD': '1234', 
-        'HOST': 'localhost'
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('HOST_DB'),
+        'PORT':env('HOST_PORT')
     }
 }
 
@@ -160,3 +165,7 @@ CORS_ALLOW_CREDENTIALS = True
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
 }
+
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')

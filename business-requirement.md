@@ -17,3 +17,5 @@
     - [ ] Get Otp by mobil number
     - [ ] Verify Mobile Number with OTP
     - [ ] Set Password (UI should send only one password; other validation UI needs to handle), Then redirect to Login page
+
+
