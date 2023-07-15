@@ -11,10 +11,13 @@ class CustomerSerializer(serializers.ModelSerializer):
         model = Customer
         app_label = 'Customer'
         fields = '__all__'
+        # exclude = [
+        #     'otp'
+        # ]
         # fields = ['id', 'name', 'email', 'password']
         extra_kwargs = {
             'password': {'write_only': True},
-            'mobileNumber': {
+            'mobile_number': {
                 'validators': [
                     UniqueValidator(
                         queryset=Customer.objects.all(),
@@ -29,20 +32,10 @@ class CustomerSerializer(serializers.ModelSerializer):
                         queryset=Customer.objects.all(),
                         message="email already exist",
                     )
-                ]
+                ],
+                # 'otp': {'write_only': True},
             }
         }
-
-    def create(self, validated_data):
-        provider = validated_data.get('provider', None)
-        instance = self.Meta.model(**validated_data)
-        if provider != 'oauth':
-            password = validated_data.pop('password', None)
-
-            if password is not None:
-                instance.set_password(password)
-            instance.save()
-        return instance
 
 
 class ClothSerializer(serializers.ModelSerializer):

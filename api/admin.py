@@ -8,8 +8,8 @@ from api.models.serializers import CustomerSerializer
 
 # Register your models here.
 class CustomerConfig(admin.ModelAdmin):
-    exclude = ['last_login', 'isMobileNumberVerified', 'provider', 'password']
-    list_display = ['id','name','mobileNumber','provider', 'email', 'gender', 'isMobileNumberVerified']
+    exclude = ['last_login', 'is_mobile_number_verified', 'provider', 'password']
+    list_display = ['id','name','mobile_number','provider', 'email', 'gender', 'is_mobile_number_verified']
     search_fields=('name','email',)
     list_filter=('name','email',)
     # actions=[make_inactive,make_active]

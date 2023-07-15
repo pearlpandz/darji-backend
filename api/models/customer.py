@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.hashers import make_password
 from multiselectfield import MultiSelectField
 from datetime import datetime
 import os
@@ -25,10 +26,10 @@ class Customer(AbstractBaseUser, models.Model):
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255, unique=True)
     password = models.CharField(max_length=255, blank=True)
-    mobileNumber = models.CharField(max_length=255, unique=True, blank=True, null=True)
-
-    isMobileNumberVerified = models.BooleanField(default=False)
-    usertype = models.CharField(max_length=255, default='customer', choices=USERTYPE)
+    mobile_number = models.CharField(max_length=255, unique=True, blank=True, null=True)
+    otp = models.CharField(max_length=255, blank=True, null=True)
+    is_mobile_number_verified = models.BooleanField(default=False)
+    user_type = models.CharField(max_length=255, default='customer', choices=USERTYPE)
     provider = models.CharField(max_length=255, choices=PROVIDERS, default='oauth')
    
     profilePic = models.ImageField(
@@ -38,7 +39,8 @@ class Customer(AbstractBaseUser, models.Model):
     username = None
 
     def save(self, *args, **kwargs):
-        # self.isMobileNumberVerified = False if self.isMobileNumberVerified == 'false' else True
+        if (self.password):
+            self.password = make_password(self.password)
         super(Customer, self).save(*args, **kwargs)
 
     REQUIRED_FIELDS = ['name', 'usertype','email']

@@ -1,5 +1,6 @@
 from rest_framework.exceptions import AuthenticationFailed
 import jwt
+from django.conf import settings
 
 def validateUser(request):
     token = request.COOKIES.get('jwt')
@@ -8,9 +9,8 @@ def validateUser(request):
         raise AuthenticationFailed('Token Missing!')
 
     try:
-        payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
     except jwt.ExpiredSignatureError:
         raise AuthenticationFailed({"message": 'Token Expired, Unauthenticated!'})
-
-    return payload['id']
-
+    print(payload)
+    return payload['user_id']

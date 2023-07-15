@@ -11,9 +11,9 @@ urlpatterns = [
     path('login', LoginView),
     path('socialLogin', SocialLoginView),
     path('register', RegisterView),
-    path('getOtp/<str:pk>', GetOtp),
-    path('forgetpassword', ForgetPassword),
     path('verifyMobileNumber', VerifyMobileNumber),
+    path('forgetpassword', ForgetPassword),
+    path('createpassword', createPassword),
 
     # User 
     path('profile', UserProfileView),
