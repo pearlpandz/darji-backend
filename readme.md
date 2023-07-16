@@ -21,6 +21,8 @@ python manage.py migrate
 admin/12345
 darjitailormade@gmail.com
 
+admin/Darji@dm!n
+
 **Create migration for specific app**
 ./manage.py makemigrations <myapp>
 
