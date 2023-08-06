@@ -107,28 +107,25 @@ def LoginView(request):
 def SocialLoginView(request):
     email = request.data['email']
     provider = request.data['provider'] 
-    
+    print(email)
     try:
         userObj = Customer.objects.filter(email=email, provider=provider)
         user = userObj.first()
-    except Customer.DoesNotExist:
+        userObj.update(last_login=datetime.datetime.now())    
+        token = get_tokens_for_user(user)
+        response = Response()
+        response.set_cookie(key='jwt', value=token['access'], httponly=True, samesite='None', secure=True)
+        response.data = {
+            'user': user.id,
+            'message': 'Successfully Loggedin!'
+        }
+        response.status_code = 200
+        return response
+    except:
         data = {
             'message': 'User not found'
         }
         return Response(data, status=404)
-
-    userObj.update(last_login=datetime.datetime.now())    
-    
-    token = get_tokens_for_user(user)
-    
-    response = Response()
-    response.set_cookie(key='jwt', value=token['access'], httponly=True, samesite='None', secure=True)
-    response.data = {
-        'user': user.id,
-        'message': 'Successfully Loggedin!'
-    }
-    response.status_code = 200
-    return response
 
 
 # Forget Password - Get mobile_number then validate and send otp
