@@ -8,6 +8,7 @@ from .views.pincode import *
 urlpatterns = [
 
     # Auth
+    path('isExisting', isExisting),
     path('login', LoginView),
     path('socialLogin', SocialLoginView),
     path('register', RegisterView),

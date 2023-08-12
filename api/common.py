@@ -3,7 +3,7 @@ import jwt
 from django.conf import settings
 
 def validateUser(request):
-    token = request.COOKIES.get('jwt')
+    token = request.headers.get('Authorization')
 
     if not token:
         raise AuthenticationFailed('Token Missing!')

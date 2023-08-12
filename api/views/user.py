@@ -17,6 +17,28 @@ import shutil
 from utils.otp import sendOtp
 from utils.token import get_tokens_for_user
 
+@api_view(['POST'])
+def isExisting(request):
+    mobile_number = request.data.get("mobile_number")
+    email = request.data.get("email")
+    isExistingUser = False
+    try:
+        if mobile_number:
+            user = Customer.objects.get(mobile_number=mobile_number)
+        if email:
+            user = Customer.objects.get(email=email)
+        if user.mobile_number:
+            isExistingUser = True
+        else:
+            isExistingUser = False
+    except Customer.DoesNotExist:
+        isExistingUser = False
+    response = Response()
+    response.data = {"isExisting": isExistingUser}
+    response.status_code = status.HTTP_200_OK
+    return response
+
+
 # Register - Get name, email, password and save it - done
 @api_view(['POST'])
 def RegisterView(request):
@@ -67,7 +89,8 @@ def VerifyMobileNumber(request):
     response.set_cookie(key='jwt', value=token['access'], httponly=True, samesite='None', secure=True)
     response.data = {
         'user': user.id,
-        'message': 'Mobile Number Successfully Verified!'
+        'message': 'Mobile Number Successfully Verified!',
+        'token': token['access']
     }
     response.status_code = 200
     return response
@@ -98,7 +121,8 @@ def LoginView(request):
     response.set_cookie(key='jwt', value=token['access'], httponly=True, samesite='None', secure=True)
     response.data = {
         'user': user.id,
-        'message': 'Successfully Loggedin!'
+        'message': 'Successfully Loggedin!',
+        'token': token['access']
     }
     return response
 
@@ -117,7 +141,8 @@ def SocialLoginView(request):
         response.set_cookie(key='jwt', value=token['access'], httponly=True, samesite='None', secure=True)
         response.data = {
             'user': user.id,
-            'message': 'Successfully Loggedin!'
+            'message': 'Successfully Loggedin!',
+            'token': token['access']
         }
         response.status_code = 200
         return response
@@ -171,6 +196,7 @@ def ChangePassword(request):
     
     oldpassword = request.data['oldPassword']
     newpassword = request.data['newPassword']
+
     user = Customer.objects.filter(id=valid_user_id)
     olduser = user.first()
     
@@ -178,9 +204,9 @@ def ChangePassword(request):
         raise AuthenticationFailed('User not found!')
 
     if not olduser.check_password(oldpassword):
-        raise AuthenticationFailed('Incorrect password!')
+        raise AuthenticationFailed({'error': 'Current password is incorrect!'})
 
-    user = Customer.objects.get(id=valid_user_id)
+    # user = Customer.objects.get(id=valid_user_id)
     user.update(password=make_password(newpassword))
     
     response = Response()

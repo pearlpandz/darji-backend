@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'api.apps.ApiConfig',
     'multiselectfield',
     'frontend.apps.FrontendConfig',
-    'mathfilters'
+    'mathfilters',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 INTERNAL_IPS = [
