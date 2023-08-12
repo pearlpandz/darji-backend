@@ -115,12 +115,17 @@ def LoginView(request):
     
     userObj.update(last_login=datetime.datetime.now())
 
-    token = get_tokens_for_user(user)
+    token = get_tokens_for_user(user) 
     
     response = Response()
     response.set_cookie(key='jwt', value=token['access'], httponly=True, samesite='None', secure=True)
+
+    userinfo = userObj.values()[0]
+    del userinfo['password']
+    del userinfo['otp']
+
     response.data = {
-        'user': user.id,
+        'userinfo': userinfo,
         'message': 'Successfully Loggedin!',
         'token': token['access']
     }
