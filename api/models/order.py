@@ -1,5 +1,6 @@
 from django.db import models
 from .customer import Customer
+from .cloth import Cloth
 import os
 
 STATUS = (
@@ -19,7 +20,7 @@ class Order(models.Model):
     orderType = models.CharField(max_length=255, blank=True)
     designType = models.CharField(max_length=255, blank=True)
     
-    cloth_id = models.IntegerField(blank=True, null=True)
+    cloth = models.ForeignKey(Cloth, null=True, on_delete=models.SET_NULL)
     cloth_length = models.FloatField(default=0)
     cloth_total_price = models.FloatField(blank=True, default=0)
     cloth_couriered = models.BooleanField(default=False)
@@ -51,9 +52,9 @@ class ReferenceImage(models.Model):
         return os.path.join('referenceImages', filename)
 
     url = models.ImageField(upload_to=get_image_path)
-    orderId = models.ForeignKey(Order, default=None, on_delete=models.CASCADE)
+    orderId = models.ForeignKey(Order, default=None, on_delete=models.SET_NULL, null=True)
 
-    REQUIRED_FIELDS = ['url']
+    REQUIRED_FIELDS = ['url', 'orderId']
 
     def __str__(self):
-        return f'{self.url}'
+        return f'{self.id}'

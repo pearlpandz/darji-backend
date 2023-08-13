@@ -43,17 +43,30 @@ class ClothSerializer(serializers.ModelSerializer):
         model = Cloth
         fields = ['id', 'name', 'description', 'image',
                   'material', 'color', 'pricePermeter']
-
-
-class OrderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Order
-        fields = '__all__'
-
+        depth = 1
 
 class ReferenceImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReferenceImage
+        fields = '__all__'
+
+
+class OrderGetSerializer(serializers.ModelSerializer):
+    cloth = ClothSerializer(read_only=True)
+    class Meta:
+        model = Order
+        fields = '__all__' 
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        
+        images = ReferenceImage.objects.filter(orderId=instance.id).values()
+        response['reference'] = images
+        return response
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
         fields = '__all__'
 
 class PinSerializer(serializers.ModelSerializer):

@@ -3,15 +3,16 @@ from rest_framework.response import Response
 from django.core.exceptions import ObjectDoesNotExist
 from api.common import validateUser
 from api.models.order import Order, ReferenceImage
-from api.models.serializers import OrderSerializer, ReferenceImageSerializer
+from api.models.serializers import OrderSerializer,OrderGetSerializer, ReferenceImageSerializer
 
 # create new order with reference image and measurements
 @api_view(['GET'])
 def getOrderList(request):
     valid_user_id = validateUser(request)
+    print(valid_user_id)
     if valid_user_id:
         items = Order.objects.filter(userId=valid_user_id)
-        serializer = OrderSerializer(instance=items, many=True)
+        serializer = OrderGetSerializer(instance=items, many=True)
         return Response(serializer.data)
 
 @api_view(['GET'])
@@ -25,7 +26,7 @@ def getSingleOrder(request, pk):
             error = {"error": "Cloth is not found!"}
             hasError = True
         if not hasError:
-            serializer = OrderSerializer(instance=items, many=False)
+            serializer = OrderGetSerializer(instance=items, many=False)
             return Response(serializer.data)
         return Response(error, request)
 
