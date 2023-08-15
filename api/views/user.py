@@ -84,11 +84,13 @@ def VerifyMobileNumber(request):
             raise AuthenticationFailed('User not found!')
     
     expiry_time = datetime.datetime.utcnow() + datetime.timedelta(minutes=60*24*30)
-    
+    userinfo = userObj.values()[0]
+    del userinfo['password']
+    del userinfo['otp']
     token = get_tokens_for_user(user)
     response.set_cookie(key='jwt', value=token['access'], httponly=True, samesite='None', secure=True)
     response.data = {
-        'user': user.id,
+        'userinfo': userinfo,
         'message': 'Mobile Number Successfully Verified!',
         'token': token['access']
     }
@@ -144,8 +146,11 @@ def SocialLoginView(request):
         token = get_tokens_for_user(user)
         response = Response()
         response.set_cookie(key='jwt', value=token['access'], httponly=True, samesite='None', secure=True)
+        userinfo = userObj.values()[0]
+        del userinfo['password']
+        del userinfo['otp']
         response.data = {
-            'user': user.id,
+            'userinfo': userinfo,
             'message': 'Successfully Loggedin!',
             'token': token['access']
         }
@@ -162,25 +167,24 @@ def SocialLoginView(request):
 @api_view(['POST'])
 def ForgetPassword(request):
     response = Response()
+    mobile_number = request.data['mobile_number']
     try:
-        mobile_number = request.data['mobile_number']
-        otp = sendOtp(mobile_number)
-        userObj = Customer.objects.filter(mobile_number=mobile_number)
-        userObj.update(otp = otp) 
-        response.data= {"message": "otp sent for verificationt!"}
-        response.status_code = 200
+        user = Customer.objects.filter(mobile_number=mobile_number).first()
+        if user is None:
+            raise AuthenticationFailed('User not found!')
+        if user.provider != 'oauth':
+            response.data = { "message": "Forget Password is not required for social accounts! Please continue with social login" }
+            response.status_code = 400
+            return response
+        else:
+            otp = sendOtp(mobile_number)
+            userObj = Customer.objects.filter(mobile_number=mobile_number)
+            userObj.update(otp = otp) 
+            response.data= {"message": "otp sent for verificationt!"}
+            response.status_code = 200
+            return response
     except Exception as e:
         return Response({"error": e.args}, status=500)  
-    
-    user = Customer.objects.filter(mobile_number=mobile_number).first()
-    
-    if user is None:
-        raise AuthenticationFailed('User not found!')
-    if user.provider != 'oauth':
-        response.data = { "message": "Forget Password is not required for social accounts! Please continue with social login" }
-        response.status_code = 400
-    
-    return response
 
 @api_view(['POST'])
 def createPassword(request):
