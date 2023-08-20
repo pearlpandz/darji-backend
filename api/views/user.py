@@ -2,9 +2,9 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.exceptions import AuthenticationFailed, NotAcceptable
-from api.models.customer import Customer
+from api.models.customer import Customer, Address
 from django.core.exceptions import ObjectDoesNotExist
-from api.models.serializers import CustomerSerializer
+from api.models.serializers import CustomerSerializer, AddressSerializer
 from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 from api.common import validateUser
@@ -272,3 +272,22 @@ def UpdateProfilePic(request):
         'message': 'Profile picture updated!'
     }
     return response
+
+
+@api_view(['POST'])
+def AddAddress(request):
+    valid_user_id = validateUser(request)
+    request.data['customer'] = valid_user_id
+    serializer = AddressSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def ListAddress(request):
+    valid_user_id = validateUser(request)
+    items = Address.objects.filter(customer=valid_user_id)
+    serializer = AddressSerializer(instance=items, many=True)
+    return Response(serializer.data)

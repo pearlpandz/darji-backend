@@ -21,6 +21,8 @@ urlpatterns = [
     path('updateinfo', UpdateUserInfo),
     path('updateprofilepic', UpdateProfilePic),
     path('changepassword', ChangePassword),
+    path('address', AddAddress),
+    path('addresses', ListAddress),
 
     # Company
     path('cloths', getItems),
@@ -33,6 +35,8 @@ urlpatterns = [
     path('order/<str:pk>', getSingleOrder),
     path('updateOrder/<str:pk>', updateOrder),
     path('orderReferenceImage/<str:pk>', orderReferenceImage),
+    path('measurement', AddMeasurement),
+    path('measurements', getMeasurementList),
 
     # Pincode
     path('pincodes', get_pincodes)

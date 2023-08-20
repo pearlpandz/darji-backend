@@ -12,5 +12,4 @@ def validateUser(request):
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
     except jwt.ExpiredSignatureError:
         raise AuthenticationFailed({"message": 'Token Expired, Unauthenticated!'})
-    print(payload)
     return payload['user_id']

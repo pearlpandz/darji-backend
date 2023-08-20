@@ -2,8 +2,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.core.exceptions import ObjectDoesNotExist
 from api.common import validateUser
-from api.models.order import Order, ReferenceImage
-from api.models.serializers import OrderSerializer,OrderGetSerializer, ReferenceImageSerializer
+from api.models.order import Order, ReferenceImage, Measurement
+from api.models.serializers import OrderSerializer,OrderGetSerializer, ReferenceImageSerializer, MeasurementSerializer
 
 # create new order with reference image and measurements
 @api_view(['GET'])
@@ -98,3 +98,34 @@ def orderReferenceImage(request, pk):
     if not hasError:
         return Response(res)
     return Response(error, status=400)
+
+@api_view(['POST'])
+def AddMeasurement(request):
+    valid_user_id = validateUser(request)
+    if valid_user_id:
+        try:
+            if(request.data['should_tag']): # should tag measurements to current user
+                request.data['customer'] = valid_user_id
+            serializer = MeasurementSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=200)
+            else:
+                print('serializer is not valid')
+                print(serializer.errors)
+                error = {"error": "Something went wrong", "messages": serializer.errors}
+                return Response(error, status=400)
+        except Exception as e:
+            print("error===>",e)
+            error = {"error": "Something went wrong"}
+            return Response(error, status=500)
+        
+
+@api_view(['GET'])
+def getMeasurementList(request):
+    valid_user_id = validateUser(request)
+    print(valid_user_id)
+    if valid_user_id:
+        items = Measurement.objects.filter(customer=valid_user_id)
+        serializer = MeasurementSerializer(instance=items, many=True)
+        return Response(serializer.data)
